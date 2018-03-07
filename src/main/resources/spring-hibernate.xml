@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- 初始化sessionFactory -->
+	<bean id="sf"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.liwc.model</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+
+				<!-- 数据库方言 -->
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+				</prop>
+
+				<!-- mysql:设置自动重连.(如果连接闲置8小时 (8小时内没有进行数据库操作), mysql就会自动断开连接) -->
+				<!-- <prop key="connection.autoReconnect">true</prop>
+				<prop key="connection.autoReconnectForPools">true</prop>
+				<prop key="connection.is-connection-validation-required">true</prop>
+ -->
+				<!-- 自动建表 -->
+				 <prop key="hbm2ddl.auto">update</prop>
+				
+				<!-- 显示sql -->
+				<prop key="hibernate.show_sql">true</prop>
+				
+				<!-- 格式化sql -->
+				<prop key="hibernate.format_sql">true</prop>
+				
+				<!-- 重要: 使用连接池设置false -->
+				<!-- <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop> -->
+				
+				
+			</props>
+		</property>
+	</bean>
+
+	<!-- hibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory" ref="sf"></property>
+	</bean>
+
+
+
+</beans>
